@@ -10,4 +10,4 @@ bot.listen().then(() => {
     console.log(`Logged In`);
 }).catch((error: Error) => {
     console.log(`Error: ${error}`)
-})
+});

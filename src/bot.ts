@@ -1,7 +1,7 @@
 import { Client, Message } from "discord.js";
 import { inject, injectable} from "inversify"
 import { TYPES } from "./types";
-import { MessageResponder } from "./message-responder";
+import { MessageResponder } from "./command/message-responder";
 
 @injectable()
 export class Bot {
@@ -16,6 +16,7 @@ export class Bot {
         this.client = client;
         this.token = token;
         this.messageResponder = messageResponder;
+        
     }
 
     public listen(): Promise<string> {

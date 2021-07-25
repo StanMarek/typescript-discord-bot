@@ -7,6 +7,7 @@ exports.TYPES = {
     Token: Symbol("Token"),
     PingFinder: Symbol("PingFinder"),
     MessageResponder: Symbol("MessageResponder"),
-    MusicPlayer: Symbol("MusicPlayer")
+    MusicPlayer: Symbol("MusicPlayer"),
+    InfoResponder: Symbol("InfoResponder")
 };
 //# sourceMappingURL=types.js.map

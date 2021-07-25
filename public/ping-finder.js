@@ -8,9 +8,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PingFinder = void 0;
 const inversify_1 = require("inversify");
+//const prefix = require("./config.json")
 let PingFinder = class PingFinder {
     constructor() {
-        this.regexp = 'ping';
+        this.regexp = '>ping';
     }
     findPing(search) {
         return search.search(this.regexp) >= 0;

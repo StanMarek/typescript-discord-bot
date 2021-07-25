@@ -10,7 +10,7 @@ exports.MusicPlayer = void 0;
 const inversify_1 = require("inversify");
 let MusicPlayer = class MusicPlayer {
     constructor() {
-        this.regexp = '!shrek';
+        this.regexp = '>shrek';
     }
     playHref(href) {
         return href.search(this.regexp) >= 0;
