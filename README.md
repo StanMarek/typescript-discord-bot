@@ -1,3 +1,4 @@
 # typescript-discord-bot
 
-NOT FINISHED YET
+Discord bot which can play music 
+and respond basic info about server and user

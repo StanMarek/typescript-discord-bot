@@ -2,11 +2,13 @@ import { injectable } from "inversify";
 import ytdl = require("ytdl-core");
 import { Message } from "discord.js";
 import { prefix } from "../message-responder";
+import { Song } from "./class/song";
 
 
 @injectable()
 export class MusicPlayer {
-    private regexp: string[] = ['play', 'p', 'shrek', 'stop'];
+    private regexp: string[] = ['play', 'p', 'shrek', 'leave', 'dc'];
+    private song: Song;
 
     public checkCommand(command: string): boolean {
         var cmd = command.slice(prefix.length).trim().split(/ +/);
@@ -22,16 +24,15 @@ export class MusicPlayer {
         
         switch (args[0]){
             case 'play':
-                this.play(args[1], message);
-                break;
             case 'p':
                 this.play(args[1], message);
-                break;
+                break;    
             case 'shrek':
                 const shrekURL = 'https://www.youtube.com/watch?v=_S7WEVLbQ-Y&ab_channel=FicLord';
                 this.play(shrekURL, message);
                 break;
-            case 'stop':
+            case 'leave':
+            case 'dc':
                 this.stop(message);
                 break;
         }
@@ -49,30 +50,11 @@ export class MusicPlayer {
         }
 
         const songInfo = await ytdl.getInfo(url);
-    
-        try {
-            var connection = await voiceChannel.join();
-            const dispatcher = connection.play(ytdl(url))
-                .on("error", (error: Error) => console.error(error))
-                .on("close", (message: Message) => this.stop(message));
-            dispatcher.setVolumeLogarithmic(1);
-            return message.channel.send(`Playing * ${songInfo.videoDetails.title} * in channel ${voiceChannel.name}!`);            
-        } catch (e) {
-            return message.channel.send(`${e}`);
-        }
+        this.song = new Song(songInfo); 
+        this.song.play(message);
     }
 
     private async stop(message: Message) {
-        const voiceChannel = message.member.voice.channel;
-        if (!voiceChannel) {
-             return message.reply("You must be in voice channel to stop music!");
-        }
-
-       try {
-           await voiceChannel.leave();
-           return message.channel.send(`Bot has left the channel: ${voiceChannel.name}!`);
-       } catch (e) {
-           return message.channel.send(`${e}`);
-       }     
+        this.song.stop(message);
     }
 }
